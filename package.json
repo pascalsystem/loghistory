@@ -1,0 +1,17 @@
+{
+  "name": "loghistory",
+  "description": "History change logger",
+  "version": "0.0.1",
+  "main": "./lib/main.js",
+  "private": true,
+  "scripts": {
+    "test": "./node_modules/.bin/mocha tests/index.js"
+  },
+  "dependencies": {
+      
+  },
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "mocha": "2.3.4"
+  }
+}
