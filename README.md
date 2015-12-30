@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pascalsystem/loghistory.svg?branch=master)](https://travis-ci.org/pascalsystem/loghistory.svg)
+
 # LogHistory
 
 Save history log for modify object with user identifier / id
