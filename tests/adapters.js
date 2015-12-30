@@ -23,7 +23,9 @@ describe('Test adapters', function() {
         it("Write sample data, recive error", function(done){
             var adapter = new adapters.AdapterConsole();
             var consoleLogRef = console.log;
-            console.log = null;
+            console.log = function(){
+                throw new Error('Error for tests');
+            };
             adapter.save({
                 system: 'system',
                 identity: 'identity',
