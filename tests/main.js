@@ -76,7 +76,9 @@ describe('Test adapters', function() {
         console.error = function(){
             consoleLastMessages = arguments
         };
-        console.log = undefined;
+        console.log = function(){
+            throw new Error('Error for tests');
+        };
         var exampleData = testLib.getExampleData();
         var logger = new library.Logger(adapter, {system: exampleData['system']});
         logger.prepareItemSave(exampleData['identity'], exampleData['oldItem'], exampleData['newItem'])
@@ -93,7 +95,9 @@ describe('Test adapters', function() {
     it("Prepare item with all data and save, without callback, but defined custom error handler", function(done){
         var adapter = new library.adapters.AdapterConsole();
         var consoleLogRef = console.log;
-        console.log = undefined;
+        console.log = function(){
+            throw new Error('Error for tests');
+        };
         var exampleData = testLib.getExampleData();
         var lastErrors;
         var logger = new library.Logger(adapter, {system: exampleData['system'], errorHandler: function(data, err){lastErrors=[data, err];}});
@@ -105,7 +109,7 @@ describe('Test adapters', function() {
                 &&
                 (typeof lastErrors[0] === 'object') && lastErrors[0] && (lastErrors[0]['identity'] === exampleData['identity'])
                 &&
-                (typeof lastErrors[1] === 'object' && lastErrors[1] && (lastErrors[1].toString().indexOf('undefined is not a function') > 0))
+                (typeof lastErrors[1] === 'object' && lastErrors[1] && (lastErrors[1].toString().indexOf('Error for tests') > 0))
             ) {
                 done();
             } else {
@@ -148,7 +152,9 @@ describe('Test adapters', function() {
     });
     it("Save item, but get connection error, also error stderr output", function(done){
         var consoleErrorRef = console.error;
-        console.error = undefined;
+        console.error = function(){
+            throw new Error('Error for tests');
+        };
         var exampleData = testLib.getExampleData();
         var logger = createLogger();
         logger.adapter.pool.setErrorGetConnectionTry(1);

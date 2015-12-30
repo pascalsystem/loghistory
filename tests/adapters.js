@@ -34,12 +34,12 @@ describe('Test adapters', function() {
                 newItem: '{"v":"newval"}'
             }, function(err){
                 console.log = consoleLogRef;
-                if (err && (err.toString().indexOf('object is not a function') > 0)) {
+                if (err && (err.toString().indexOf('Error for tests') > 0)) {
                     done();
                 } else if (err) {
                     done(err);
                 } else {
-                    done(new Error('Expect TypeError: object is not a function'));
+                    done(new Error('Expect TypeError: Error for tests'));
                 }
             });
         });
