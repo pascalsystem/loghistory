@@ -32,16 +32,16 @@ var logger = new LogHistory.Logger(adapter, {
 });
 
 // save data with custom handler for item
-logger.prepareItemSave('user_identifier', {"value":"oldvalue"}, {"value":"newvalue"}, function(err){
+logger.prepareItemSave('user_identifier', 'object_type', 'object_uuid', {"value":"oldvalue"}, {"value":"newvalue"}, function(err){
     console.error('Error save data', err);
 });
 
 // save data without custom handler for item
 // if catch error this module execute errorHandler method with data and error
-logger.prepareItemSave('user_identifier', {"value":"oldvalue"}, {"value":"newvalue"});
+logger.prepareItemSave('user_identifier', 'object_type', 'object_uuid', {"value":"oldvalue"}, {"value":"newvalue"});
 
 // create item logger and save after
-var item = logger.prepareItem('user_identifier', {"value":"oldvalue"});
+var item = logger.prepareItem('user_identifier', 'object_type', 'object_uuid', {"value":"oldvalue"});
 item.setNewItem({"value":"newvalue"});
 // if this metod call without callback method then errorHandler methos is execute
 item.save(function(err){
@@ -116,6 +116,8 @@ var adapter = new loghistory.adapters.AdapterPoolMysql({
     columnSystem: 'log_system',
     columnIdentity: 'log_identity',
     columnCreateDate: 'log_create_date',
+    columnObjectType: 'log_object_type',
+    columnObjectIdentity: 'log_object_identity',
     columnOldItem: 'log_old_item',
     columnNewItem: 'log_new_item',
     maxTries: 3 // Maximum try save data in database, option is optional, default value 1
@@ -136,7 +138,9 @@ Data object properties types:
 ~~~
 data['system'] - always is string
 data['identity'] - string or null ( when you pass number, logger parse this to string )
-data['createDate'] = always javascript Date object
+data['createDate'] - always javascript Date object
+data['objectType'] - string or null ( when you pass number value is cast to string)
+data['objectIdentity'] - string or null ( when you pass number value is cast to string)
 data['oldItem'] - always string ( when you object this object is convert to JSON ) or null
 data['newItem'] - always string ( when you object this object is convert to JSON ) or null
 ~~~
@@ -149,6 +153,8 @@ save = function(data, cb) {
             data.system,
             data.identity,
             data.createDate,
+            data.objectType,
+            data.objectIdentity,
             data.oldItem,
             data.newItem
         );

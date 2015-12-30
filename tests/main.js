@@ -28,7 +28,9 @@ describe('Test adapters', function() {
         var logger = createLogger();
         var item = logger.prepareItem();
         item.setIdentity(exampleData['identity']);
-        item.setOldItem(exampleData['oldItem']);
+        item.setObjectType(exampleData['objectType'])
+            .setObjectIdentity(exampleData['objectIdentity'])
+            .setOldItem(exampleData['oldItem']);
         item.setNewItem(exampleData['newItem']);
         item.save(function(err){
             done((err) ? err : null);
@@ -37,7 +39,10 @@ describe('Test adapters', function() {
     it("Prepare item with identity data and put another data one after one and save", function(done){
         var exampleData = testLib.getExampleData();
         var logger = createLogger();
-        var item = logger.prepareItem(exampleData['identity']);
+        var item = logger.prepareItem(exampleData['identity'])
+            .setObjectIdentity(exampleData['objectIdentity'])
+            .setObjectType(exampleData['objectType']);
+        item.setOldItem(exampleData['oldItem']);
         item.setOldItem(exampleData['oldItem']);
         item.setNewItem(exampleData['newItem']);
         item.save(function(err){
@@ -47,7 +52,7 @@ describe('Test adapters', function() {
     it("Prepare item with identity, oldItem data and put newItem after and save", function(done){
         var exampleData = testLib.getExampleData();
         var logger = createLogger();
-        var item = logger.prepareItem(exampleData['identity'], exampleData['oldItem']);
+        var item = logger.prepareItem(exampleData['identity'], exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem']);
         item.setNewItem(exampleData['newItem']);
         item.save(function(err){
             done((err) ? err : null);
@@ -56,7 +61,7 @@ describe('Test adapters', function() {
     it("Prepare item with all data and save after", function(done){
         var exampleData = testLib.getExampleData();
         var logger = createLogger();
-        var item = logger.prepareItem(exampleData['identity'], exampleData['oldItem'], exampleData['newItem']);
+        var item = logger.prepareItem(exampleData['identity'], exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem'], exampleData['newItem']);
         item.save(function(err){
             done((err) ? err : null);
         });
@@ -64,7 +69,7 @@ describe('Test adapters', function() {
     it("Prepare item with all data and save", function(done){
         var exampleData = testLib.getExampleData();
         var logger = createLogger();
-        var item = logger.prepareItemSave(exampleData['identity'], exampleData['oldItem'], exampleData['newItem'], function(err){
+        var item = logger.prepareItemSave(exampleData['identity'], exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem'], exampleData['newItem'], function(err){
             done((err) ? err : null);
         });
     });
@@ -81,7 +86,7 @@ describe('Test adapters', function() {
         };
         var exampleData = testLib.getExampleData();
         var logger = new library.Logger(adapter, {system: exampleData['system']});
-        logger.prepareItemSave(exampleData['identity'], exampleData['oldItem'], exampleData['newItem'])
+        logger.prepareItemSave(exampleData['identity'], exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem'], exampleData['newItem'])
         setTimeout(function(){
             console.error = consoleErrorRef;
             console.log = consoleLogRef;
@@ -101,7 +106,7 @@ describe('Test adapters', function() {
         var exampleData = testLib.getExampleData();
         var lastErrors;
         var logger = new library.Logger(adapter, {system: exampleData['system'], errorHandler: function(data, err){lastErrors=[data, err];}});
-        logger.prepareItemSave(exampleData['identity'], exampleData['oldItem'], exampleData['newItem'])
+        logger.prepareItemSave(exampleData['identity'], exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem'], exampleData['newItem'])
         setTimeout(function(){
             console.log = consoleLogRef;
             if (
@@ -120,7 +125,7 @@ describe('Test adapters', function() {
     it("Prepare item with invalid mock data two times", function(done){
         var exampleData = testLib.getExampleData();
         var logger = createLogger();
-        logger.prepareItemSave('invalid', exampleData['oldItem'], exampleData['newItem'], function(err){
+        logger.prepareItemSave('invalid', exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem'], exampleData['newItem'], function(err){
             if (err && (err.toString().indexOf('Invalid parameter') > 0)) {
                 done();
             } else if (err) {
@@ -139,7 +144,7 @@ describe('Test adapters', function() {
         var exampleData = testLib.getExampleData();
         var logger = createLogger();
         logger.adapter.pool.setErrorGetConnectionTry(1);
-        logger.prepareItemSave(exampleData['identity'], exampleData['oldItem'], exampleData['newItem']);
+        logger.prepareItemSave(exampleData['identity'], exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem'], exampleData['newItem']);
         setTimeout(function(){
             console.error = consoleErrorRef;
             logger.adapter.pool.clearErrorGetConnectionTry();
@@ -158,7 +163,7 @@ describe('Test adapters', function() {
         var exampleData = testLib.getExampleData();
         var logger = createLogger();
         logger.adapter.pool.setErrorGetConnectionTry(1);
-        logger.prepareItemSave(exampleData['identity'], exampleData['oldItem'], exampleData['newItem']);
+        logger.prepareItemSave(exampleData['identity'], exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem'], exampleData['newItem']);
         setTimeout(function(){
             console.error = consoleErrorRef;
             logger.adapter.pool.clearErrorGetConnectionTry();
@@ -169,7 +174,7 @@ describe('Test adapters', function() {
         var exampleData = testLib.getExampleData();
         var logger = createLogger({tries:3});
         logger.adapter.pool.setErrorGetConnectionTry(2);
-        logger.prepareItemSave(exampleData['identity'], exampleData['oldItem'], exampleData['newItem'], function(err){
+        logger.prepareItemSave(exampleData['identity'], exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem'], exampleData['newItem'], function(err){
             logger.adapter.pool.clearErrorGetConnectionTry();
             done((err) ? err : null);
         });
@@ -181,7 +186,7 @@ describe('Test adapters', function() {
             dataError = [data, err];
         }});
         logger.adapter.pool.setErrorGetConnectionTry(3);
-        logger.prepareItemSave(exampleData['identity'], exampleData['oldItem'], exampleData['newItem']);
+        logger.prepareItemSave(exampleData['identity'], exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem'], exampleData['newItem']);
         setTimeout(function(){
             logger.adapter.pool.clearErrorGetConnectionTry();
             if ((dataError !== null) && (dataError.length === 2) && (dataError[1].toString().indexOf('Error get connection [mock]') > 0)) {

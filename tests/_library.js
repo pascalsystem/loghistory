@@ -1,6 +1,8 @@
 var exampleData = {
     system: 'system',
     identity: 'identity',
+    objectType: 'object_sample_type',
+    objectIdentity: 'object_uuid',
     oldItem: '{"v":"oldval"}',
     newItem: '{"v":"newval"}'
 };
@@ -18,6 +20,8 @@ var getAdapterMysqlPoolOptions = function(pool){
         columnSystem: 'system',
         columnIdentity: 'identity',
         columnCreateDate: 'create_date',
+        columnObjectType: 'object_type',
+        columnObjectIdentity: 'object_identity',
         columnOldItem: 'old_item',
         columnNewItem: 'new_item',
     }; 
@@ -30,11 +34,11 @@ var poolConnectionMock = function(pool){
         self.pool.allowGetConnection = true;
     };
     this.query = function(sql, params, cb){
-        var expectSql = 'INSERT INTO ?? (??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?)';
+        var expectSql = 'INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?)';
         var exampleData = getExampleData();
         var expectParams = [
-            'table','system','identity','create_date','old_item','new_item',
-            exampleData['system'], exampleData['identity'], '__DATE__', exampleData['oldItem'], exampleData['newItem']
+            'table','system','identity','create_date','object_type','object_identity','old_item','new_item',
+            exampleData['system'], exampleData['identity'], '__DATE__', exampleData['objectType'], exampleData['objectIdentity'], exampleData['oldItem'], exampleData['newItem']
         ];
         if (sql !== expectSql) {
             cb(new Error('Bad sql, expect: ' + expectSql + ', recive: ' + sql));

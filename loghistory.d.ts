@@ -48,13 +48,21 @@ declare module LogHistory {
              */
             columnSystem:string;
             /**
-             * Column name for identity
+             * Column name for identity app or user
              */
             columnIdentity:string;
             /**
              * Column name for create date
              */
             columnCreateDate:string;
+            /**
+             * Column name for object type
+             */
+            columnObjectType:string;
+            /**
+             * Column name for object identity
+             */
+            columnObjectIdentity:string;
             /**
              * Column name for old item object data
              */
@@ -89,9 +97,17 @@ declare module LogHistory {
          */
         constructor(obj:Logger)
         /**
-         * Set identity, any object which can convert to string or null
+         * Set identity (ex: application or user), any object which can convert to string or null
          */
         setIdentity(identity:any):LoggerItem;
+        /**
+         * Set object type
+         */
+        setObjectType(objectType:string):LoggerItem;
+        /**
+         * Set object identity
+         */
+        setObjectIdentity(objectIdentity:any):LoggerItem;
         /**
          * Old item object data
          */
@@ -133,10 +149,10 @@ declare module LogHistory {
         /**
          * Prepare logger item by parameters
          */
-        prepareItem(identity?:any, oldItem?:any, newItem?:any):LoggerItem;
+        prepareItem(identity?:any, objectType?:string, objectIdentity?:any, oldItem?:any, newItem?:any):LoggerItem;
         /**
          * Save logger item
          */
-        prepareItemSave(identity:any, oldItem:any, newItem:any, cb?:(err:Error)=>void);
+        prepareItemSave(identity?:any, objectType?:string, objectIdentity?:any, oldItem?:any, newItem?:any, cb?:(err:Error)=>void);
     }
 }

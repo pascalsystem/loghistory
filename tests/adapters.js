@@ -13,10 +13,10 @@ describe('Test adapters', function() {
                 console.log = consoleLogRef;
                 if (err) {
                     done(err);
-                } else if (/^system\|identity\|([^\|]+)\|([^\|]+)\|([^\|]+)$/.test(consoleLastMessage)) {
+                } else if (/^system\|identity\|([^\|]+)\|object_sample_type\|object_uuid\|([^\|]+)\|([^\|]+)$/.test(consoleLastMessage)) {
                     done();
                 } else {
-                    done(new Error('String send to output not valid'));
+                    done(new Error('String send to output not valid: ' + consoleLastMessage));
                 }
             });
         });
@@ -46,29 +46,13 @@ describe('Test adapters', function() {
     });
     describe('MysqlPool adapter', function () {
         it('Write sample data', function (done) {
-            var adapter = new adapters.AdapterPoolMysql({
-                pool: new testLib.getPoolMock(),
-                tableName: 'table',
-                columnSystem: 'system',
-                columnIdentity: 'identity',
-                columnCreateDate: 'create_date',
-                columnOldItem: 'old_item',
-                columnNewItem: 'new_item',
-            });
+            var adapter = new adapters.AdapterPoolMysql(testLib.getAdapterMysqlPoolOptions(new testLib.getPoolMock()));
             adapter.save(testLib.getExampleData(), function(err){
                 done((err) ? err : null);
             });
         });
         it("Write sample data, but invalid date object", function(done){
-            var adapter = new adapters.AdapterPoolMysql({
-                pool: new testLib.getPoolMock(),
-                tableName: 'table',
-                columnSystem: 'system',
-                columnIdentity: 'identity',
-                columnCreateDate: 'create_date',
-                columnOldItem: 'old_item',
-                columnNewItem: 'new_item',
-            });
+            var adapter = new adapters.AdapterPoolMysql(testLib.getAdapterMysqlPoolOptions(new testLib.getPoolMock()));
             var cloneData = testLib.getExampleData();
             cloneData['createDate'] = 'invalid';
             adapter.save(cloneData, function(err){
