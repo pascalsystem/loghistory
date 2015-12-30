@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pascalsystem/loghistory.svg?branch=master)](https://travis-ci.org/pascalsystem/loghistory.svg)
+[![Build Status](https://travis-ci.org/pascalsystem/loghistory.svg?branch=master)](https://travis-ci.org/pascalsystem/loghistory)
 
 # LogHistory
 
