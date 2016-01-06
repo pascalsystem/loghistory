@@ -1,17 +1,27 @@
 {
-  "name": "loghistory",
-  "description": "History change logger",
-  "version": "0.0.1",
-  "main": "./lib/main.js",
-  "private": true,
-  "scripts": {
-    "test": "./node_modules/.bin/mocha tests/index.js"
-  },
-  "dependencies": {
-      
-  },
-  "readmeFilename": "README.md",
-  "devDependencies": {
-    "mocha": "2.3.4"
-  }
+    "name": "loghistory",
+    "description": "History change logger with adapter database or output",
+    "version": "0.0.1",
+    "author": "Bartłomiej Królikowski <info@pascalsystem.pl>",
+    "main": "./lib/main.js",
+    "license": "MIT",
+    "repository": "pascalsystem/loghistory",
+    "scripts": {
+        "test": "./node_modules/.bin/mocha tests/index.js"
+    },
+    "dependencies": {
+
+    },
+    "keywords": [
+        "history",
+        "logger",
+        "database",
+        "changes",
+        "revision",
+        "output"
+    ],
+    "readmeFilename": "README.md",
+    "devDependencies": {
+        "mocha": "2.3.4"
+    }
 }

@@ -1,10 +1,9 @@
 [![Build Status](https://travis-ci.org/pascalsystem/loghistory.svg?branch=master)](https://travis-ci.org/pascalsystem/loghistory)
+[![npm version](https://badge.fury.io/js/loghistory.svg)](http://badge.fury.io/js/loghistory)
 
 # LogHistory
 
 Save history log for modify object with user identifier / id
-
-Beta version (please wait for this module is publish on NPM)
 
 # Documentation
 
